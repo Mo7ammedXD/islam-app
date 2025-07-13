@@ -141,6 +141,7 @@ const initial = () => {
 
 // Initialized audio player
 const initAudioPlayer = () => {
+  // Bug #3: Incorrect audio source URL handling causing playback issues in some browsers
   if (playerRef.value.readyState > 0) {
     initial()
   }
@@ -239,7 +240,11 @@ const initAudioPlayer = () => {
 
 <style>
 #slider {
-  @apply appearance-none w-full h-1 outline-none cursor-pointer;
+  appearance: none;
+  width: 100%;
+  height: 0.25rem;
+  outline: none;
+  cursor: pointer;
   background: linear-gradient(
     to right,
     theme('colors.teal.500') var(--progress),
@@ -255,23 +260,39 @@ html.dark #slider {
   );
 }
 
-/* Thumb: webkit */
+/* مؤشر: webkit */
 #slider::-webkit-slider-thumb {
-  @apply appearance-none w-3 h-3 bg-teal-600 rounded-full border-none transition-all ease-in-out duration-200;
+  appearance: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: #0d9488;
+  border-radius: 9999px;
+  border: none;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }
 
-/* Thumb: Firefox */
+/* مؤشر: Firefox */
 #slider::-moz-range-thumb {
-  @apply appearance-none w-3 h-3 bg-teal-600 rounded-full border-none transition-all ease-in-out duration-200;
+  appearance: none;
+  width: 0.75rem;
+  height: 0.75rem;
+  background-color: #0d9488;
+  border-radius: 9999px;
+  border: none;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 200ms;
 }
 
-/* Hover Thumb: Webkit */
+/* تأثير التحويم: Webkit */
 #slider::-webkit-slider-thumb:hover {
-  @apply shadow-[0_0_0_10px] shadow-teal-300/30;
+  box-shadow: 0 0 0 10px rgba(94, 234, 212, 0.3);
 }
 
-/* Hover Thumb: Firfox */
+/* تأثير التحويم: Firefox */
 #slider::-moz-range-thumb:hover {
-  @apply shadow-[0_0_0_10px] shadow-teal-300/30;
+  box-shadow: 0 0 0 10px rgba(94, 234, 212, 0.3);
 }
 </style>

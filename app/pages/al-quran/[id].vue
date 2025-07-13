@@ -111,8 +111,8 @@ onMounted(() => {
 })
 
 useSeoMeta({
-  title: () => `Surah ${detailSurah.value?.namaLatin} | Islam App`,
-  description: () => `Detail surah ${detailSurah.value?.namaLatin}`,
+  title: () => `سورة ${detailSurah.value?.namaLatin} | تطبيق الإسلام`,
+  description: () => `تفاصيل سورة ${detailSurah.value?.namaLatin}`,
 })
 </script>
 
@@ -154,7 +154,7 @@ useSeoMeta({
           <!-- Button prev & next surah -->
           <div
             v-if="detailSurah"
-            class="mt-12 flex items-center justify-center space-x-3 md:mt-20"
+            class="mt-12 flex items-center justify-center space-x-3 rtl:space-x-reverse md:mt-20"
           >
             <!-- Previous surah -->
             <button
@@ -163,11 +163,11 @@ useSeoMeta({
               @click="goToSurah(detailSurah.suratSebelumnya as IBeforeNextSurah)"
             >
               <Icon
-                icon="heroicons:chevron-left-solid"
+                icon="heroicons:chevron-right-solid"
                 class="text-base"
               />
-              <span class="hidden sm:block">Surah sebelumnya</span>
-              <span class="block sm:hidden">Sebelumnya</span>
+              <span class="hidden sm:block">السورة السابقة</span>
+              <span class="block sm:hidden">السابقة</span>
             </button>
 
             <!-- Back to top -->
@@ -175,8 +175,8 @@ useSeoMeta({
               class="btn-prev-next-surah"
               @click="scrollToTop"
             >
-              <span class="hidden sm:block">Kembali ke atas</span>
-              <span class="block sm:hidden">Ke atas</span>
+              <span class="hidden sm:block">العودة للأعلى</span>
+              <span class="block sm:hidden">للأعلى</span>
             </button>
 
             <!-- Next surah -->
@@ -185,10 +185,10 @@ useSeoMeta({
               class="btn-prev-next-surah"
               @click="goToSurah(detailSurah.suratSelanjutnya as IBeforeNextSurah)"
             >
-              <span class="hidden sm:block">Surah berikutnya</span>
-              <span class="block sm:hidden">Berikutnya</span>
+              <span class="hidden sm:block">السورة التالية</span>
+              <span class="block sm:hidden">التالية</span>
               <Icon
-                icon="heroicons:chevron-right-solid"
+                icon="heroicons:chevron-left-solid"
                 class="text-base"
               />
             </button>

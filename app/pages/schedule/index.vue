@@ -22,11 +22,11 @@ const indexActiveTab = ref<number>(0)
 const tabs = [
   {
     key: 'today',
-    label: 'Hari Ini',
+    label: 'اليوم',
   },
   {
     key: 'this-month',
-    label: '1 Bulan',
+    label: 'الشهر',
   },
 ]
 
@@ -180,7 +180,7 @@ getAllLocation()
 
 // Meta
 useHead({
-  title: 'Jadwal Sholat | Islam App',
+  title: 'مواقيت الصلاة | تطبيق إسلام',
 })
 </script>
 
@@ -194,7 +194,7 @@ useHead({
         @click="showModalLocation = true"
       >
         <Icon icon="heroicons:pencil-20-solid" />
-        <span>Ubah Lokasi</span>
+        <span>تغيير الموقع</span>
       </div>
     </div>
 
@@ -204,7 +204,7 @@ useHead({
     >
       <div>
         <h1 class="text-xl font-semibold text-white md:text-2xl">
-          Jadwal Sholat
+          مواقيت الصلاة
         </h1>
         <p
           v-if="!isLoading"

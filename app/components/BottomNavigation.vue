@@ -8,22 +8,22 @@ const route = useRoute()
 const menus: { url: string; label: string; icon: string }[] = [
   {
     url: '/al-quran',
-    label: 'Al-Quran',
+    label: 'القرآن',
     icon: 'fa6-solid:book-quran',
   },
   {
     url: '/hadith',
-    label: 'Hadits',
+    label: 'الحديث',
     icon: 'fa6-solid:book-open',
   },
   {
     url: '/prayer',
-    label: 'Doa',
+    label: 'الدعاء',
     icon: 'fa6-solid:person-praying',
   },
   {
     url: '/schedule',
-    label: 'Jadwal Sholat',
+    label: 'مواقيت الصلاة',
     icon: 'fa6-solid:mosque',
   },
 ]

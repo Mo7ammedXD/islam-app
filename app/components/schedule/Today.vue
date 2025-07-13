@@ -10,11 +10,11 @@ defineProps<{
 
 // Variables
 const schedules = ref<{ key: string; text: string; icon: string }[]>([
-  { key: 'subuh', text: 'Shubuh', icon: 'solar:sun-fog-outline' },
-  { key: 'dzuhur', text: 'Dzuhur', icon: 'solar:sun-outline' },
-  { key: 'ashar', text: 'Ashar', icon: 'solar:cloud-sun-2-line-duotone' },
-  { key: 'maghrib', text: 'Maghrib', icon: 'solar:moon-fog-linear' },
-  { key: 'isya', text: 'Isya', icon: 'solar:cloudy-moon-linear' },
+  { key: 'subuh', text: 'الفجر', icon: 'solar:sun-fog-outline' },
+  { key: 'dzuhur', text: 'الظهر', icon: 'solar:sun-outline' },
+  { key: 'ashar', text: 'العصر', icon: 'solar:cloud-sun-2-line-duotone' },
+  { key: 'maghrib', text: 'المغرب', icon: 'solar:moon-fog-linear' },
+  { key: 'isya', text: 'العشاء', icon: 'solar:cloudy-moon-linear' },
 ])
 </script>
 
@@ -50,7 +50,7 @@ const schedules = ref<{ key: string; text: string; icon: string }[]>([
       <!-- Imsak -->
       <div class="flex flex-col items-center">
         <p class="text-sm text-smoke-1 dark:text-smoke-2 md:text-base">
-          Imsak
+          الإمساك
         </p>
         <p class="text-sm font-semibold text-yami dark:text-slate-200 md:text-base">
           {{ dataSchedule.jadwal.imsak }}
@@ -60,7 +60,7 @@ const schedules = ref<{ key: string; text: string; icon: string }[]>([
       <!-- Rise -->
       <div class="flex flex-col items-center">
         <p class="text-sm text-smoke-1 dark:text-smoke-2 md:text-base">
-          Terbit
+          الشروق
         </p>
         <p class="text-sm font-semibold text-yami dark:text-slate-200 md:text-base">
           {{ dataSchedule.jadwal.terbit }}
@@ -70,7 +70,7 @@ const schedules = ref<{ key: string; text: string; icon: string }[]>([
       <!-- Dhuha -->
       <div class="flex flex-col items-center">
         <p class="text-sm text-smoke-1 dark:text-smoke-2 md:text-base">
-          Dhuha
+          الضحى
         </p>
         <p class="text-sm font-semibold text-yami dark:text-slate-200 md:text-base">
           {{ dataSchedule.jadwal.dhuha }}

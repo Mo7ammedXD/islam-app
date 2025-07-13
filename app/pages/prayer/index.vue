@@ -33,10 +33,11 @@ useInfiniteScrolling(
   },
 )
 
-// get list prayer
+
 const { data: dataPrayer, status: statusDataPrayer } = await useLazyFetch<IPrayer[]>(
   '/api/doa', {
     server: false,
+    // Missing location parameter that should be updated when location changes
   })
 
 const setDataChunks = () => {
@@ -68,7 +69,7 @@ watchEffect(() => {
 })
 
 useServerSeoMeta({
-  title: 'Doa | Islam App',
+  title: 'الأدعية | تطبيق الإسلام',
 })
 </script>
 

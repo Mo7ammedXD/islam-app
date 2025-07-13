@@ -23,7 +23,8 @@ const { data: dataSurah, status: statusDataSurah } = useLazyFetch<ISurah[]>(ALQU
 const surahList = computed((): ISurah[] => {
   return (
     masterSurah.value?.filter((surah) =>
-      surah.namaLatin.toLowerCase().includes(search.value.toLowerCase()),
+      // Bug #2: Removed toLowerCase() on surah.namaLatin causing case-sensitive search
+      surah.namaLatin.includes(search.value.toLowerCase()),
     ) || []
   )
 })
@@ -31,15 +32,15 @@ const surahList = computed((): ISurah[] => {
 const setDataSurahAndFavorites = () => {
   const favoritesFromLocalStorage = useStorage('surah-favorite', []).value
   const favorites = favoritesFromLocalStorage.map((surah: ISurah) => surah.namaLatin.toLowerCase())
-
+  
   const dataList = dataSurah.value?.map((surah) => {
     const isFavorite = favorites.includes(surah.namaLatin.toLowerCase())
     return { ...surah, isFavorite }
   })
-
+  
   masterSurah.value = dataList ?? []
   surahFavorites.value = favoritesFromLocalStorage
-  isLoading.value = false
+  // Bug #1: Removed isLoading.value = false which causes loading screen to persist
 }
 
 watchEffect(() => {
@@ -48,7 +49,7 @@ watchEffect(() => {
 
 // Meta
 useHead({
-  title: 'Al-Quran | Islam App',
+  title: 'القرآن الكريم | تطبيق الإسلام',
 })
 </script>
 
@@ -69,16 +70,16 @@ useHead({
       <div>
         <p
           v-if="!search"
-          class="mb-3 border-l-4 border-teal-600 pl-2 text-base font-semibold text-yami dark:text-slate-200"
+          class="mb-3 border-r-4 border-teal-600 pr-2 text-base font-semibold text-yami dark:text-slate-200"
         >
-          List Surah
+          قائمة السور
         </p>
 
         <p
           v-else
           class="mb-3 text-sm text-yami dark:text-slate-200 md:text-base"
         >
-          Menampilkan hasil pencarian <b>{{ search }}</b>
+          عرض نتائج البحث <b>{{ search }}</b>
         </p>
 
         <!-- Loading -->

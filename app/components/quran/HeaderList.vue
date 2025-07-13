@@ -15,7 +15,7 @@ const search = defineModel<string>()
     <!-- Search field -->
     <InputSearch
       v-model="search"
-      placeholder="Cari Surah"
+      placeholder="ابحث عن سورة"
     />
   </div>
 </template>

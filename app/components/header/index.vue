@@ -6,10 +6,10 @@ const colorMode = useColorMode()
 
 // Variables
 const menus: { url: string; label: string }[] = [
-  { url: '/al-quran', label: 'Al-Quran' },
-  { url: '/hadith', label: 'Hadits' },
-  { url: '/prayer', label: 'Doa' },
-  { url: '/schedule', label: 'Jadwal Sholat' },
+  { url: '/al-quran', label: 'القرآن' },
+  { url: '/hadith', label: 'الحديث' },
+  { url: '/prayer', label: 'الدعاء' },
+  { url: '/schedule', label: 'مواقيت الصلاة' },
 ]
 
 const isDark = computed<boolean>({

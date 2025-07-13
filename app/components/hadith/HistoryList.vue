@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { IHadithHistory } from '@/models/IHadith';
+// استيراد مجموعات الأحاديث من البيانات الثابتة
+import { hadithCollections } from '@/data/hadith';
 
 // Props
 defineProps<{
@@ -11,45 +13,11 @@ const emits = defineEmits<{
   (e: 'change-hadith-history', value: string): void
 }>()
 
-// Variable
-const hadithHistoryList: IHadithHistory[] = [
-  {
-    name: 'Abu Dawud',
-    slug: 'abu-dawud',
-  },
-  {
-    name: 'Ahmad',
-    slug: 'ahmad',
-  },
-  {
-    name: 'Bukhari',
-    slug: 'bukhari',
-  },
-  {
-    name: 'Darimi',
-    slug: 'darimi',
-  },
-  {
-    name: 'Ibnu Majah',
-    slug: 'ibnu-majah',
-  },
-  {
-    name: 'Malik',
-    slug: 'malik',
-  },
-  {
-    name: 'Muslim',
-    slug: 'muslim',
-  },
-  {
-    name: 'Nasai',
-    slug: 'nasai',
-  },
-  {
-    name: 'Tirmidzi',
-    slug: 'tirmidzi',
-  },
-]
+// تحويل مجموعات الأحاديث إلى الصيغة المطلوبة
+const hadithHistoryList: IHadithHistory[] = hadithCollections.map(collection => ({
+  name: collection.name,
+  slug: collection.id
+}))
 </script>
 
 <template>

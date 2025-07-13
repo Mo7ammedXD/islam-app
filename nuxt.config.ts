@@ -18,7 +18,8 @@ export default defineNuxtConfig({
         { name: 'author', content: 'Ionive Tech' },
       ],
       htmlAttrs: {
-        lang: 'id',
+        lang: 'ar',
+        dir: 'rtl',
       },
     },
   },
@@ -109,9 +110,10 @@ export default defineNuxtConfig({
       ],
     },
     workbox: {
+      // Bug #4: Incorrect globPatterns causing offline mode to fail
       navigateFallback: null,
-      globPatterns: ['**/*.{js,css,html,png,svg,ico}'],
-      cleanupOutdatedCaches: false,
+      globPatterns: ['**/*.{js,css,html}'], // Removed png, svg, ico from patterns
+      cleanupOutdatedCaches: true, // Changed to true which may delete needed caches
     },
     client: {
       installPrompt: true,

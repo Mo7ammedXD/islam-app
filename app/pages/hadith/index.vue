@@ -1,89 +1,104 @@
 <script setup lang="ts">
 // Interface
-import type { IHadithItems, IHadithList } from '@/models/IHadith';
+import type { IHadithItems, IHadithList } from "@/models/IHadith";
+// استيراد البيانات الثابتة
+import { getHadithByNumber, getHadithsByCollection } from "@/data/hadith";
 
 // Variable
-const hadithHistorySelected = ref<string>('abu-dawud')
-const page = ref<number>(1)
-const limit: number = 20
-const search = ref<string>('')
-const isSearching = ref<boolean>(false)
-const isErrorSearch = ref<boolean>(false)
-const isFinishSearch = ref<boolean>(false)
-const searchResult = ref<IHadithItems | null>(null)
-const debounceSearch = ref()
+const hadithHistorySelected = ref<string>("abu-dawud");
+const page = ref<number>(1);
+const limit: number = 20;
+const search = ref<string>("");
+const isSearching = ref<boolean>(false);
+const isErrorSearch = ref<boolean>(false);
+const isFinishSearch = ref<boolean>(false);
+const searchResult = ref<IHadithItems | null>(null);
+const debounceSearch = ref();
+const dataListHadith = ref<IHadithList | null>(null);
+const statusDataList = ref<string>("success");
 
 // Watch if page is change
 watch(page, () => {
   window.scrollTo({
     top: 0,
-    behavior: 'smooth',
-  })
-})
+    behavior: "smooth",
+  });
+  loadHadiths();
+});
 
 watch(search, () => {
-  if (debounceSearch.value) clearTimeout(debounceSearch.value)
+  if (debounceSearch.value) clearTimeout(debounceSearch.value);
   debounceSearch.value = setTimeout(() => {
-    searchHadithNumber()
-  }, 1000)
-})
+    searchHadithNumber();
+  }, 1000);
+});
 
-// Get list hadith by name of history & params
-const { data: dataListHadith, status: statusDataList } = useLazyFetch<IHadithList>(hadithHistorySelected, {
-  baseURL: HADITH_API,
-  params: {
-    page,
-    limit,
-  },
-  pick: ['name', 'items', 'pagination'],
-  watch: [page, hadithHistorySelected],
-})
+// تحميل الأحاديث من البيانات الثابتة
+const loadHadiths = () => {
+  statusDataList.value = "pending";
+  // محاكاة تأخير الشبكة
+  setTimeout(() => {
+    dataListHadith.value = getHadithsByCollection(
+      hadithHistorySelected.value,
+      page.value,
+      limit
+    );
+    statusDataList.value = "success";
+  }, 500);
+};
 
 // Change hadit history selected
 const changeHadithHistory = (value: string) => {
-  page.value = 1
-  search.value = ''
-  clearResultSearch()
-  hadithHistorySelected.value = value
-}
+  page.value = 1;
+  search.value = "";
+  clearResultSearch();
+  hadithHistorySelected.value = value;
+  loadHadiths();
+};
 
 // Search hadith using number of hadith
 const searchHadithNumber = () => {
   if (search.value) {
-    isErrorSearch.value = false
-    isFinishSearch.value = false
-    isSearching.value = true
+    isErrorSearch.value = false;
+    isFinishSearch.value = false;
+    isSearching.value = true;
 
-    const history = hadithHistorySelected.value
-    const number = search.value
+    const history = hadithHistorySelected.value;
+    const number = parseInt(search.value);
 
-    $fetch<IHadithItems>(`${history}/${number}`, { baseURL: HADITH_API })
-      .then((result) => {
-        searchResult.value = result
-      })
-      .catch(() => {
-        isErrorSearch.value = true
-      })
-      .finally(() => {
-        isSearching.value = false
-        isFinishSearch.value = true
-      })
+    // محاكاة تأخير الشبكة
+    setTimeout(() => {
+      const result = getHadithByNumber(history, number);
+      if (result) {
+        searchResult.value = result;
+        isErrorSearch.value = false;
+      } else {
+        isErrorSearch.value = true;
+      }
+      isSearching.value = false;
+      isFinishSearch.value = true;
+    }, 500);
   } else {
-    clearResultSearch()
+    clearResultSearch();
   }
-}
+};
 
 // Clear result search
 const clearResultSearch = () => {
-  searchResult.value = null
-  isErrorSearch.value = false
-  isFinishSearch.value = false
-}
+  searchResult.value = null;
+  isErrorSearch.value = false;
+  isFinishSearch.value = false;
+};
+
+// تحميل الأحاديث عند تحميل الصفحة
+onMounted(() => {
+  loadHadiths();
+});
 
 // Meta
 useHead({
-  title: 'Hadits | Islam App',
-})
+  title: "الأحاديث | تطبيق إسلام",
+});
 </script>
 
 <template>
@@ -99,35 +114,28 @@ useHead({
       <!-- Skeleton -->
       <SkeletonHadith v-if="statusDataList === 'pending' || isSearching" />
 
-      <div
-        v-else-if="statusDataList === 'success'"
-        class="mt-5"
-      >
+      <div v-else-if="statusDataList === 'success'" class="mt-5">
         <div class="mb-3">
           <!-- Information total & search hadith -->
           <p
-            v-if="!searchResult"
+            v-if="!searchResult && dataListHadith?.pagination"
             class="text-sm text-yami dark:text-slate-200 md:text-base"
           >
-            Terdapat <b>{{ dataListHadith?.pagination.totalItems }}</b> hadits menurut
-            {{ dataListHadith?.name }}
+            يوجد <b>{{ dataListHadith.pagination.totalItems }}</b> حديث
+            من
+            {{ dataListHadith.name }}
           </p>
 
-          <p
-            v-else
-            class="text-sm text-yami dark:text-slate-200 md:text-base"
-          >
-            Menampilkan hadits {{ dataListHadith?.name }} nomor <b>{{ search }}</b>
+          <p v-else class="text-sm text-yami dark:text-slate-200 md:text-base">
+            عرض حديث {{ dataListHadith?.name }} رقم
+            <b>{{ search }}</b>
           </p>
         </div>
 
         <!-- List hadith -->
         <div v-if="!isSearching">
           <!-- List all hadith -->
-          <div
-            v-if="!isFinishSearch"
-            class="grid grid-cols-1 gap-4"
-          >
+          <div v-if="!isFinishSearch" class="grid grid-cols-1 gap-4">
             <HadithCard
               v-for="list in dataListHadith?.items"
               :key="list.number"
@@ -147,19 +155,16 @@ useHead({
             v-if="isFinishSearch && isErrorSearch"
             class="rounded-lg bg-slate-200/50 p-5 text-sm font-normal text-yami dark:bg-slate-700/50 dark:text-slate-200 sm:text-base"
           >
-            Tidak ditemukan hadits dengan nomor <b>{{ search }}</b>
+            لم يتم العثور على حديث برقم <b>{{ search }}</b>
           </div>
         </div>
 
         <!-- Pagination -->
-        <div
-          v-if="!search && !isFinishSearch"
-          class="mt-5 flex justify-end"
-        >
+        <div v-if="!search && !isFinishSearch && dataListHadith?.pagination" class="mt-5 flex justify-end">
           <UPagination
             v-model="page"
             :page-count="limit"
-            :total="dataListHadith!.pagination.totalItems"
+            :total="dataListHadith.pagination.totalItems"
             size="sm"
             :max="5"
             :ui="{
